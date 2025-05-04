@@ -24,15 +24,17 @@ class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
             async with async_timeout.timeout(5):
                 async with aiohttp.ClientSession() as session:
                     async with session.get(url) as response:
-                        text = await response.text()
-                        LOGGER.debug(f"Response text: {text}")
-                        values = text.split("\n")
+                        raw = await response.text()
+                        LOGGER.debug(f"Raw response: {raw}")
+                        clean = raw.strip('"')
+                        LOGGER.debug(f"Cleaned response: {clean}")
+                        values = clean.strip().split("\n")
                         LOGGER.debug(f"Parsed values: {values}")
 
                         return {
-                            # "temperature": float(values[5]),
-                            # "slider": float(values[6]),
-                            # "draft": float(values[7]),
+                            "temperature": float(values[5]),
+                            "slider": float(values[6]),
+                            "draft": float(values[7]),
                             "raw": values
                         }
         except Exception as e:
