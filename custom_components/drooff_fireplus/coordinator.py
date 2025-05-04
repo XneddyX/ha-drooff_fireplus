@@ -25,6 +25,7 @@ class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
                 async with aiohttp.ClientSession() as session:
                     async with session.get(url) as response:
                         text = await response.text()
+                        LOGGER.debug(f"Response text: {text}")
                         values = text.strip().split("\n")
                         LOGGER.debug(f"Parsed values: {values}")
                         return {
