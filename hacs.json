@@ -1,0 +1,9 @@
+{
+  "name": "Drooff Fire+",
+  "content_in_root": false,
+  "domains": ["sensor"],
+  "country": "de",
+  "homeassistant": "2025.2.4",
+  "hacs": "2.0.1",
+  "render_readme": true
+}
