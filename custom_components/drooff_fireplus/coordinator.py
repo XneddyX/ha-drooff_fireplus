@@ -26,8 +26,9 @@ class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
                     async with session.get(url) as response:
                         text = await response.text()
                         LOGGER.debug(f"Response text: {text}")
-                        values = text.strip().split("\n")
+                        values = text.split("\n")
                         LOGGER.debug(f"Parsed values: {values}")
+
                         return {
                             # "temperature": float(values[5]),
                             # "slider": float(values[6]),
