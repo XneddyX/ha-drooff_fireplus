@@ -17,7 +17,6 @@ async def async_setup_entry(
     """Set up the Drooff Fire+ integration from a config entry."""   
     coordinator = DrooffDataUpdateCoordinator(
         hass=hass, 
-        entry=entry,
         logger=LOGGER,
         name=DOMAIN,
         update_interval=timedelta(seconds=entry.data["interval"]))
