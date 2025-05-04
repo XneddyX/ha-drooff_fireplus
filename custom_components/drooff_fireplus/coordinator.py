@@ -1,9 +1,12 @@
 import aiohttp
 import async_timeout
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-
+from homeassistant.config_entries import ConfigEntry
 
 class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
+
+    def __init__(self, entry):
+        self.ip = entry.data["ip"]
 
     async def _async_update_data(self):
         url = f"http://{self.ip}/php/easpanel.php"

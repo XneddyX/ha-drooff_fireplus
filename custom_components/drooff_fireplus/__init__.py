@@ -19,7 +19,8 @@ async def async_setup_entry(
         hass=hass, 
         logger=LOGGER,
         name=DOMAIN,
-        update_interval=timedelta(seconds=entry.data["interval"]))
+        update_interval=timedelta(seconds=entry.data["interval"])
+    )
     
     await coordinator.async_config_entry_first_refresh()
 
