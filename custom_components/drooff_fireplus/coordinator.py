@@ -29,9 +29,9 @@ class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
                         values = text.strip().split("\n")
                         LOGGER.debug(f"Parsed values: {values}")
                         return {
-                            "temperature": float(values[5]),
-                            "slider": float(values[6]),
-                            "draft": float(values[7]),
+                            # "temperature": float(values[5]),
+                            # "slider": float(values[6]),
+                            # "draft": float(values[7]),
                             "raw": values
                         }
         except Exception as e:
