@@ -13,7 +13,7 @@ async def async_setup_entry(
     async_add_entities([
         DrooffSensor(coordinator, "temperature", "Temperatur", "°C"),
         DrooffSensor(coordinator, "slider", "Luftschieberstellung", "%"),
-        DrooffSensor(coordinator, "draft", "Feinzug", "")
+        DrooffSensor(coordinator, "draft", "Feinzug", "Pa")
     ])
 
 class DrooffSensor(SensorEntity):
