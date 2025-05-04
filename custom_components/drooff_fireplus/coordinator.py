@@ -26,6 +26,9 @@ class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
                     async with session.get(url) as response:
                         raw = await response.text()
                         LOGGER.debug(f"Raw response: {raw}")
+                        if raw.startswith('\ufeff') or raw.startswith('ï»¿'):
+                            raw = raw.lstrip('\ufeff').lstrip('ï»¿')
+                        LOGGER.debug(f"Raw response 2: {raw}")
                         clean = raw.strip('"')
                         LOGGER.debug(f"Cleaned response: {clean}")
                         decoded = bytes(clean, "utf-8").decode("unicode_escape")
