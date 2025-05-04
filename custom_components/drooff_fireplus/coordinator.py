@@ -25,10 +25,8 @@ class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
                 async with aiohttp.ClientSession() as session:
                     async with session.get(url) as response:
                         text = await response.text()
-                        LOGGER.debug(f"Response: {text}")
-                        if response.status != 200:
-                            raise UpdateFailed(f"Error fetching data: {response.status}")
                         values = text.strip().split("\n")
+                        LOGGER.debug(f"Parsed values: {values}")
                         return {
                             "temperature": float(values[5]),
                             "slider": float(values[6]),
