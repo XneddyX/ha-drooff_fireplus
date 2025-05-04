@@ -1,0 +1,34 @@
+from datetime import timedelta
+import aiohttp
+import async_timeout
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from .const import DOMAIN
+
+class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
+    def __init__(self, hass, entry):
+        self.hass = hass
+        self.ip = entry.data["ip"]
+        self.interval = entry.data["interval"]
+        super().__init__(
+            hass,
+            logger=hass.logger,
+            name=DOMAIN,
+            update_interval=timedelta(seconds=self.interval),
+        )
+
+    async def _async_update_data(self):
+        url = f"http://{self.ip}/php/easpanel.php"
+        try:
+            async with async_timeout.timeout(5):
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(url) as response:
+                        text = await response.text()
+                        values = text.strip().split("\n")
+                        return {
+                            "temperature": float(values[5]),
+                            "slider": float(values[6]),
+                            "draft": float(values[7]),
+                            "raw": values
+                        }
+        except Exception as e:
+            raise UpdateFailed(f"Error fetching data: {e}")

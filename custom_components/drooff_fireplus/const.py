@@ -1,0 +1,3 @@
+DOMAIN = "drooff_fireplus"
+DEFAULT_INTERVAL = 10
+DEFAULT_IP = "XXX.XXX.XXX.XXX"

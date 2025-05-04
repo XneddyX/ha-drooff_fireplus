@@ -1,0 +1,10 @@
+{
+    "domain": "drooff_fireplus",
+    "name": "Drooff Fire+",
+    "version": "1.0.0",
+    "documentation": "https://github.com/XneddyX/ha-drooff_fireplus",
+    "requirements": [],
+    "config_flow": true,
+    "iot_class": "local_polling",
+    "codeowners": ["@XneddyX"]
+  }
