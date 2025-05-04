@@ -1,14 +1,46 @@
+from homeassistant.const import Platform
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from datetime import timedelta
 
 from .const import DOMAIN, LOGGER
 from .coordinator import DrooffDataUpdateCoordinator
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
-    coordinator = DrooffDataUpdateCoordinator(hass, entry, logger=LOGGER)
+PLATFORMS: list[Platform] = [
+    Platform.SENSOR,
+]
+
+async def async_setup_entry(
+    hass: HomeAssistant, 
+    entry: ConfigEntry
+    ) -> bool:
+    """Set up the Drooff Fire+ integration from a config entry."""   
+    coordinator = DrooffDataUpdateCoordinator(
+        hass=hass, 
+        entry=entry,
+        logger=LOGGER,
+        name=DOMAIN,
+        update_interval=timedelta(seconds=entry.data["interval"]))
+    
     await coordinator.async_config_entry_first_refresh()
-    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
-    hass.async_create_task(
-        hass.config_entries.async_forward_entry_setup(entry, "sensor")
-    )
+
+    await hass.config_entries.async_forward_entry_setup(entry, PLATFORMS)
+    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
+
     return True
+
+async def async_unload_entry(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+) -> bool:
+    """Handle removal of an entry."""
+    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+
+
+async def async_reload_entry(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+) -> None:
+    """Reload config entry."""
+    await async_unload_entry(hass, entry)
+    await async_setup_entry(hass, entry)

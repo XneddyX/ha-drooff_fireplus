@@ -1,20 +1,9 @@
-from datetime import timedelta
 import aiohttp
 import async_timeout
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from .const import DOMAIN, LOGGER
+
 
 class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
-    def __init__(self, hass, entry):
-        self.hass = hass
-        self.ip = entry.data["ip"]
-        self.interval = entry.data["interval"]
-        super().__init__(
-            hass,
-            logger=LOGGER,
-            name=DOMAIN,
-            update_interval=timedelta(seconds=self.interval),
-        )
 
     async def _async_update_data(self):
         url = f"http://{self.ip}/php/easpanel.php"
