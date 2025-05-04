@@ -28,7 +28,9 @@ class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
                         LOGGER.debug(f"Raw response: {raw}")
                         clean = raw.strip('"')
                         LOGGER.debug(f"Cleaned response: {clean}")
-                        values = clean.strip().split("\n")
+                        decoded = bytes(clean, "utf-8").decode("unicode_escape")
+                        LOGGER.debug(f"Decoded response: {decoded}")
+                        values = decoded.strip().split("\n")
                         LOGGER.debug(f"Parsed values: {values}")
 
                         return {
