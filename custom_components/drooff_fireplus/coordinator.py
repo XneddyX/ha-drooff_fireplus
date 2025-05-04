@@ -1,11 +1,20 @@
 import aiohttp
 import async_timeout
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from homeassistant.config_entries import ConfigEntry
+# from homeassistant.config_entries import ConfigEntry
+from datetime import timedelta
+from .const import DOMAIN, LOGGER
 
 class DrooffDataUpdateCoordinator(DataUpdateCoordinator):
 
-    def __init__(self, entry):
+    def __init__(self, hass,  entry):
+        super().__init__(
+            hass=hass, 
+            logger=LOGGER,
+            name=DOMAIN,
+            update_interval=timedelta(seconds=entry.data["interval"])
+        )
+
         self.ip = entry.data["ip"]
 
     async def _async_update_data(self):
