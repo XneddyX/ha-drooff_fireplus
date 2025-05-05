@@ -14,13 +14,6 @@ class DrooffConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(
                 title="Drooff Fire+", 
                 data=user_input)
-
-        schema = vol.Schema({
-            vol.Required("ip", default=DEFAULT_IP): str,
-            vol.Required("interval", default=DEFAULT_INTERVAL): int,
-        })
-        
-
         return self.async_show_form(
             step_id="user", 
             data_schema=vol.Schema(
